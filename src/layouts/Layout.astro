@@ -1,0 +1,233 @@
+---
+import '@/styles/global.css';
+import { VerticalNav } from '@/components/ui/nav';
+import { FlickeringGrid } from '@/components/ui/flickering-grid';
+import { LightRays } from '@/components/ui/light-rays';
+import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
+import { SITE } from '@/constants/informations';
+import Analytics from '@vercel/analytics/astro'
+
+export interface Props {
+    title: string;
+    description?: string;
+    image?: string;
+    canonical?: string;
+    noindex?: boolean;
+}
+
+const { title, description = SITE.description, image = SITE.image, canonical, noindex = false } = Astro.props;
+
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
+const pageTitle = `${SITE.username} | ${title}`;
+
+const keywords = SITE.keywords.join(', ');
+
+const navItems = [
+    { label: 'Accueil', href: '/' },
+    { label: 'A propos', href: '/a-propos' },
+    { label: 'Contact', href: '/contact' },
+];
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Primary Meta Tags -->
+        <title>{pageTitle}</title>
+        <meta name="title" content={pageTitle} />
+        <meta name="description" content={description} />
+        <meta name="author" content={SITE.username} />
+        <meta name="keywords" content={keywords} />
+        <link rel="canonical" href={canonicalURL} />
+        {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={socialImage} />
+        <meta property="og:image:alt" content={`${SITE.username} - ${title}`} />
+        <meta property="og:site_name" content={SITE.username} />
+        <meta property="og:locale" content="en_US" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={pageTitle} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={socialImage} />
+        <meta property="twitter:image:alt" content={`${SITE.username} - ${title}`} />
+
+        <!-- Structured Data -->
+        <script type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": SITE.username,
+          "alternateName": SITE.username,
+          "description": SITE.description,
+          "url": SITE.url,
+          "image": socialImage.toString(),
+          "sameAs": [
+            SITE.contact.github,
+            SITE.contact.linkedin
+          ],
+          "jobTitle": "Software Developer",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Betclic"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bordeaux",
+            "addressCountry": "France"
+          },
+          "knowsAbout": [
+            ...SITE.keywords
+          ]
+        })}>
+        </script>
+        <script is:inline>
+            (function() {
+                const theme = localStorage.getItem('theme') || 'dark';
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            })();
+        </script>
+    </head>
+    <Analytics/>
+    <body class="bg-background min-h-screen p-2 md:p-8 relative">
+        <FlickeringGrid
+            className="fixed inset-0 z-0 pointer-events-none"
+            flickerChance={0.5}
+            maxOpacity={0.1}
+            client:load
+        />
+        {/* Top menu: visible on mobile, hidden on lg+ */}
+        <nav
+            class="bg-sidebar border-border/50 mb-4 block w-full rounded-xl border-b px-4 py-2 lg:hidden relative z-10"
+        >
+            <ul class="flex justify-center space-x-4">
+                {
+                    navItems.map((item) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                class="text-foreground text-sm font-medium hover:underline"
+                            >
+                                {item.label}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+        <div
+            class="bg-background border-border/50 mx-auto h-[calc(100vh-4rem)] max-w-7xl overflow-hidden rounded-xl border shadow-2xl relative z-10"
+        >
+            <div
+                class="bg-card border-border/50 flex h-12 items-center border-b px-4 select-none"
+            >
+                <div class="flex items-center space-x-2">
+                    <div
+                        class="h-3 w-3 cursor-pointer rounded-full bg-red-500 transition-colors hover:bg-red-600"
+                    >
+                    </div>
+                    <div
+                        class="h-3 w-3 cursor-pointer rounded-full bg-yellow-500 transition-colors hover:bg-yellow-600"
+                    >
+                    </div>
+                    <div
+                        class="h-3 w-3 cursor-pointer rounded-full bg-green-500 transition-colors hover:bg-green-600"
+                    >
+                    </div>
+                </div>
+
+                <div class="flex-1 text-center">
+                    <span
+                        class="text-muted-foreground px-1 py-0.5 text-xs font-medium md:px-0 md:py-0 md:text-sm"
+                    >
+                        {title}
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-end w-16">
+                    <AnimatedThemeToggler 
+                        className="text-foreground hover:text-primary transition-colors h-8 w-8"
+                        client:load
+                    />
+                </div>
+            </div>
+
+            <div class="flex h-[calc(100%-3rem)]">
+                {/* Sidebar: hidden on mobile, visible on lg+ */}
+                <div
+                    class="bg-sidebar border-border/50 hidden w-72 flex-shrink-0 border-r lg:block"
+                >
+                    <VerticalNav items={navItems} client:load />
+                </div>
+
+                <div class="flex flex-1 flex-col relative">
+                    {/* Main Content Area */}
+                    <main class="flex-1 overflow-auto relative">
+                        <LightRays 
+                            className="absolute inset-0"
+                            client:load
+                        />
+                        <div class="mx-auto max-w-4xl px-4 py-16 md:px-24 relative z-10">
+                            <div class="animate-in fade-in slide-in-from-bottom-2 duration-300 firefox:animate-none">
+                                <slot />
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+
+            main::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            main::-webkit-scrollbar-track {
+                background: hsl(var(--muted));
+            }
+
+            main::-webkit-scrollbar-thumb {
+                background: hsl(var(--muted-foreground));
+                border-radius: 4px;
+            }
+
+            main::-webkit-scrollbar-thumb:hover {
+                background: hsl(var(--primary));
+            }
+
+            .traffic-light {
+                transition: all 0.2s ease;
+            }
+
+            .traffic-light:hover {
+                transform: scale(1.1);
+            }
+
+            @-moz-document url-prefix() {
+                .animate-in {
+                    animation: none !important;
+                    transform: none !important;
+                    opacity: 1 !important;
+                }
+            }
+        </style>
+    </body>
+</html>

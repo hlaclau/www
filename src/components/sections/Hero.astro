@@ -1,0 +1,51 @@
+---
+import { highlightWords } from '@/utils/highlight';
+import { SITE } from '@/constants/informations';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
+---
+
+<div class="flex flex-col items-center justify-center min-h-[60vh] space-y-10 text-center">
+  <div class="space-y-6">
+    {/* Title */}
+    <div class="space-y-4">
+      <h1 class="text-foreground text-4xl font-bold md:text-5xl lg:text-6xl">
+        {SITE.username}
+      </h1>
+      <h2 class="text-foreground text-2xl font-bold md:text-3xl lg:text-4xl">
+        Développeur
+      </h2>
+    </div>
+
+    {/* Profile Image */}
+    <div class="flex justify-center">
+      <img
+        src="/photos/laclau-hugo.jpeg"
+        alt={SITE.username}
+        class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg"
+      />
+    </div>
+
+    {/* Description with highlighted keywords */}
+    <div class="text-muted-foreground text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed">
+      <p>
+        <Fragment
+          set:html={highlightWords(
+            'Actuellement étudiant en master informatique chez Bordeaux Ynov Campus en alternance en tant qu\'ingénieur logiciel chez Betclic.',
+            ['master informatique', 'Bordeaux Ynov Campus', 'alternance', 'ingénieur logiciel', 'Betclic']
+          )}
+        />
+      </p>
+    </div>
+
+    {/* Action Buttons */}
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+      <InteractiveHoverButton href="/a-propos" client:load>
+        En savoir plus
+      </InteractiveHoverButton>
+      <InteractiveHoverButton href="/contact" client:load>
+        Contactez-moi
+      </InteractiveHoverButton>
+    </div>
+
+  </div>
+</div>
