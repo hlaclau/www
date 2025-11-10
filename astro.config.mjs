@@ -7,6 +7,11 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
     site: 'https://hlaclau.fr',
+    base: '/',
+    trailingSlash: 'ignore',
+    build: {
+        format: 'directory',
+    },
     vite: {
         plugins: [tailwindcss()],
     },
