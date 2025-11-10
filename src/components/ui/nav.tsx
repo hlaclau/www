@@ -110,7 +110,7 @@ const VerticalNav = React.forwardRef<HTMLElement, VerticalNavProps>(
                         <span>by {SITE.username}</span>
                     </div>
                     <div className="text-xs text-sidebar-foreground/50">
-                        <span>Built with Astro & Tailwind</span>
+                        <span>Built with Astro & Bun</span>
                     </div>
                 </div>
             </nav>
