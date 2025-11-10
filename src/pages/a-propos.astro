@@ -1,70 +1,18 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { SITE } from '@/constants/informations';
-import { highlightWords } from '@/utils/highlight';
-import { LocationDisplay } from '@/components/sections/LocationDisplay';
+import Description from '@/components/sections/Description.astro';
+import Skills from '@/components/sections/Skills.astro';
 ---
 
 <Layout title="À propos" description={`En savoir plus sur ${SITE.username} - ${SITE.description}`}>
   <div class="flex flex-col items-center space-y-6 text-center">
-    <div class="space-y-4 max-w-3xl mx-auto w-full">
-      {/* Title */}
-      <div class="space-y-2">
-        <h1 class="text-foreground text-3xl font-bold md:text-4xl">
-          À propos de moi
-        </h1>
-      </div>
-
-      {/* Description */}
-      <div class="text-muted-foreground text-base md:text-lg leading-relaxed space-y-3">
-        <p>
-          <Fragment
-            set:html={highlightWords(
-              `Bonjour ! Je suis ${SITE.username}, ${SITE.title.toLowerCase()} chez ${SITE.company}.`,
-              [SITE.username, SITE.company]
-            )}
-          />
-        </p>
-        
-        <p>
-          Passionné par le développement logiciel, j'aime créer des solutions innovantes et relever de nouveaux défis techniques. 
-          Mon parcours m'a permis de travailler avec différentes technologies et de développer une expertise dans le développement full-stack.
-        </p>
-        
-        <p>
-          Actuellement en alternance, je combine mes études avec une expérience professionnelle concrète, 
-          ce qui me permet d'apprendre continuellement et d'appliquer mes connaissances dans des projets réels.
-        </p>
-      </div>
-
-      {/* Compétences */}
-      <div class="space-y-3 pt-2">
-        <h2 class="text-foreground text-xl font-bold md:text-2xl">
-          Compétences
-        </h2>
-        
-        <div class="text-muted-foreground text-sm md:text-base space-y-2">
-          <p>
-            Je travaille principalement avec les technologies suivantes :
-          </p>
-          <ul class="list-disc list-inside space-y-1 text-left max-w-xl mx-auto">
-            <li><strong class="text-foreground">Backend :</strong> C#, .NET, ASP.NET, Go, Rust</li>
-            <li><strong class="text-foreground">Frontend :</strong> JavaScript, TypeScript, React, Vue.js, Astro</li>
-            <li><strong class="text-foreground">Bases de données :</strong> PostgreSQL, MySQL, MongoDB, Redis</li>
-            <li><strong class="text-foreground">DevOps :</strong> Docker, AWS, Terraform, CI/CD</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Localisation */}
-      <div class="space-y-2 pt-2">
-        <h2 class="text-foreground text-xl font-bold md:text-2xl">
-          Localisation
-        </h2>
-        
-        <LocationDisplay location={SITE.location} client:load />
-      </div>
+    <div class="space-y-2">
+      <h1 class="text-foreground text-3xl font-bold md:text-4xl">
+        À propos de moi
+      </h1>
     </div>
+    <Description />
+    <Skills />
   </div>
 </Layout>
-
