@@ -1,0 +1,44 @@
+---
+import { SITE } from '@/constants/informations';
+import { highlightWords } from '@/utils/highlight';
+---
+
+<div class="text-muted-foreground text-base md:text-lg leading-relaxed space-y-3">
+  <p>
+    <Fragment
+      set:html={highlightWords(
+        `Je suis ${SITE.username}, ${SITE.title.toLowerCase()} chez ${SITE.company} et étudiant à Bordeaux Ynov Campus en master informatique.`,
+        [SITE.username, SITE.company, 'Bordeaux Ynov Campus', 'master informatique'],
+      )}
+    />
+  </p>
+
+  <p>
+    <Fragment
+      set:html={highlightWords(
+        `Passionné par l'informatique et plus particulièrement par le développement logiciel, j'aime découvrir de nouvelles technologies et approfondir mes connaissances.`,
+        ['informatique', 'développement logiciel'],
+      )}
+    />
+  </p>
+
+  <p>
+    <Fragment
+      set:html={highlightWords(
+        `Actuellement, je me forme au développement en Go et à l'utilisation d'AWS avec Terraform.
+        Je me forme également à ce qui touche au devops avec la mise en places de pipelines de déploiement automatisés avec Docker sur mes propres projets.`,
+        ['Go', 'AWS', 'Terraform', 'Docker'],
+      )}
+    />
+  </p>
+  
+  <p>
+    <Fragment
+      set:html={highlightWords(
+        `Je porte aussi un grand intérêt à la developer experience (DevX), car j'apprécie particulièrement optimiser mon environnement de travail et peaufiner les outils que j'utilise au quotidien pour gagner en efficacité.`,
+        ['DevX'],
+      )}
+    />
+  </p>
+</div>
+

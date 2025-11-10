@@ -42,15 +42,15 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         const checkTheme = () => {
             setIsDark(document.documentElement.classList.contains('dark'));
         };
-        
+
         checkTheme();
-        
+
         const observer = new MutationObserver(checkTheme);
         observer.observe(document.documentElement, {
             attributes: true,
             attributeFilter: ['class'],
         });
-        
+
         return () => observer.disconnect();
     }, []);
 
@@ -68,12 +68,12 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
             const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data);
             return `rgba(${r}, ${g}, ${b},`;
         };
-        
+
         // If color is provided, use it; otherwise adapt to theme
         if (color) {
             return toRGBA(color);
         }
-        
+
         // Default: white in dark mode, black in light mode
         return isDark ? 'rgba(255, 255, 255,' : 'rgba(0, 0, 0,';
     }, [color, isDark]);
