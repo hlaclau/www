@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { SITE } from '@/constants/informations';
+import { SITE } from '@/constants/site';
 import { TypingAnimation } from '@/components/ui/typing-animation';
 
 interface NavItem {

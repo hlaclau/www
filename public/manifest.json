@@ -1,0 +1,19 @@
+{
+  "name": "LACLAU Hugo - Ingénieur logiciel",
+  "short_name": "Hugo LACLAU",
+  "description": "Portfolio de LACLAU Hugo, Ingénieur logiciel en alternance chez Betclic",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

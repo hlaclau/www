@@ -1,6 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { SITE } from '@/constants/informations';
+import { SITE } from '@/constants/site';
 import Description from '@/components/sections/Description.astro';
 import Skills from '@/components/sections/Skills.astro';
 ---
@@ -16,3 +16,22 @@ import Skills from '@/components/sections/Skills.astro';
     <Skills />
   </div>
 </Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "À propos",
+  "description": `En savoir plus sur ${SITE.username} - ${SITE.description}`,
+  "url": `${SITE.url}/a-propos`,
+  "mainEntity": {
+    "@type": "Person",
+    "name": SITE.username,
+    "jobTitle": SITE.title,
+    "worksFor": {
+      "@type": "Organization",
+      "name": SITE.company
+    },
+    "knowsAbout": SITE.keywords
+  }
+})}>
+</script>

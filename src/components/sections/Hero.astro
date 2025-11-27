@@ -1,6 +1,6 @@
 ---
 import { highlightWords } from '@/utils/highlight';
-import { SITE } from '@/constants/informations';
+import { SITE } from '@/constants/site';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 ---
 
@@ -14,15 +14,6 @@ import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button
       <h2 class="text-foreground text-2xl font-bold md:text-3xl lg:text-4xl">
         Développeur
       </h2>
-    </div>
-
-    {/* Profile Image */}
-    <div class="flex justify-center">
-      <img
-        src="/photos/laclau-hugo.webp"
-        alt={SITE.username}
-        class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg"
-      />
     </div>
 
     {/* Description with highlighted keywords */}

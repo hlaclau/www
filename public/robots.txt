@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://hlaclau.fr/sitemap-index.xml
+
+# Disallow admin or private areas if any
+# Disallow: /private/
+
+
