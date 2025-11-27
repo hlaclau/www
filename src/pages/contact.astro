@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { SITE } from '@/constants/informations';
-import { LinkedInButton, GitHubButton } from '@/components/sections/SocialButton';
+import { SITE } from '@/constants/site';
+import { LinkedInButton, GitHubButton, OpGGButton } from '@/components/sections/SocialButton';
 ---
 
 <Layout title="Contact" description={`Contactez ${SITE.username} - ${SITE.title}`}>
@@ -26,8 +26,27 @@ import { LinkedInButton, GitHubButton } from '@/components/sections/SocialButton
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
         <LinkedInButton href={SITE.contact.linkedin} client:load />
         <GitHubButton href={SITE.contact.github} client:load />
+
       </div>
 
     </div>
   </div>
 </Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact",
+  "description": `Contactez ${SITE.username} - ${SITE.title}`,
+  "url": `${SITE.url}/contact`,
+  "mainEntity": {
+    "@type": "Person",
+    "name": SITE.username,
+    "url": SITE.url,
+    "sameAs": [
+      SITE.contact.linkedin,
+      SITE.contact.github
+    ]
+  }
+})}>
+</script>

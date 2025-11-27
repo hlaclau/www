@@ -1,9 +1,22 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Hero from '@/components/sections/Hero.astro';
-import { SITE } from '@/constants/informations';
+import { SITE } from '@/constants/site';
 ---
 
 <Layout title="Accueil" description={SITE.description}>
   <Hero />
 </Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Accueil",
+  "description": SITE.description,
+  "url": SITE.url,
+  "mainEntity": {
+    "@type": "Person",
+    "name": SITE.username
+  }
+})}>
+</script>
