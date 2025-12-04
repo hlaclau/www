@@ -1,8 +1,8 @@
 /**
- * Creates a highlighted span with primary background and text
+ * Creates an emphasized span with italic and underline styling
  */
 export function highlight(text: string): string {
-    return `<span class="bg-primary/20 text-primary font-medium px-1 rounded hover:bg-primary/30 hover:scale-105 transition-all duration-200 cursor-default">${text}</span>`;
+    return `<span class="italic underline underline-offset-2 decoration-1 font-semibold">${text}</span>`;
 }
 
 /**
