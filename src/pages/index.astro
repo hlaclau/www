@@ -5,7 +5,7 @@ import Description from '@/components/sections/Description.astro';
 import { SITE } from '@/constants/site';
 ---
 
-<Layout title="Accueil" description={SITE.description}>
+<Layout title={SITE.username} description={SITE.description}>
   <div class="flex flex-col items-center space-y-12 md:space-y-16">
     <Hero />
     <Description />
@@ -42,7 +42,7 @@ import { SITE } from '@/constants/site';
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Accueil",
+  "name": SITE.username,
   "description": SITE.description,
   "url": SITE.url,
   "mainEntity": {
