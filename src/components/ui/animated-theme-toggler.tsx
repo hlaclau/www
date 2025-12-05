@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import { flushSync } from 'react-dom';
 
 import { cn } from '@/lib/utils';
@@ -73,10 +73,10 @@ export const AnimatedThemeToggler = ({
         <button
             ref={buttonRef}
             onClick={toggleTheme}
-            className={cn(className)}
+            className={cn("flex items-center justify-center", className)}
             {...props}
         >
-            {isDark ? <Sun /> : <Moon />}
+            {isDark ? <Icon icon="line-md:sunny-loop" className="h-6 w-6" /> : <Icon icon="line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition" className="h-6 w-6" />}
             <span className="sr-only">Toggle theme</span>
         </button>
     );

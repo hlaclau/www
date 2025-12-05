@@ -3,42 +3,76 @@ import { SITE } from '@/constants/site';
 import { highlightWords } from '@/utils/highlight';
 ---
 
-<div class="text-muted-foreground text-base md:text-lg leading-relaxed space-y-3">
-  <p>
+<div class="w-full max-w-2xl mx-auto space-y-6">
+  <p class="text-muted-foreground leading-relaxed">
     <Fragment
       set:html={highlightWords(
-        `Je suis ${SITE.username}, ${SITE.title.toLowerCase()} chez ${SITE.company} et étudiant à Bordeaux Ynov Campus en master informatique.`,
-        [SITE.username, SITE.company, 'Bordeaux Ynov Campus', 'master informatique'],
-      )}
-    />
-  </p>
-
-  <p>
-    <Fragment
-      set:html={highlightWords(
-        `Passionné par l'informatique et plus particulièrement par le développement logiciel, j'aime découvrir de nouvelles technologies et approfondir mes connaissances.`,
+        `Passionné par l'informatique et le développement logiciel, j'aime découvrir de nouvelles technologies et approfondir mes connaissances.`,
         ['informatique', 'développement logiciel'],
       )}
     />
   </p>
 
-  <p>
+  <p class="text-muted-foreground leading-relaxed">
     <Fragment
       set:html={highlightWords(
-        `Actuellement, je me forme au développement en Go et à l'utilisation d'AWS avec Terraform.
-        Je me forme également à ce qui touche au devops avec la mise en places de pipelines de déploiement automatisés avec Docker sur mes propres projets.`,
-        ['Go', 'AWS', 'Terraform', 'Docker'],
+        `Je suis étudiant en master informatique chez ${SITE.school} et en alternance chez ${SITE.company}.`,
+        [SITE.school, 'master informatique', SITE.company],
       )}
     />
   </p>
-  
-  <p>
+
+  <p class="text-muted-foreground leading-relaxed">
     <Fragment
       set:html={highlightWords(
-        `Je porte aussi un grand intérêt à la developer experience (DevX), car j'apprécie particulièrement optimiser mon environnement de travail et peaufiner les outils que j'utilise au quotidien pour gagner en efficacité.`,
+        `Je travaille principalement avec .NET et TypeScript, et j’explore aussi Go et Rust sur mon temps libre.`,
+        ['.NET', 'TypeScript', 'Go', 'Rust'],
+      )}
+    />
+  </p>
+
+  <p class="text-muted-foreground leading-relaxed">
+    <Fragment
+      set:html={highlightWords(
+        `Je m’intéresse beaucoup au DevOps, notamment à la mise en place de pipelines de déploiement automatisés avec Docker, ainsi qu’à l’utilisation d’AWS et de Terraform.`,
+        ['DevOps', 'Docker', 'AWS', 'Terraform'],
+      )}
+    />
+  </p>
+
+  <p class="text-muted-foreground leading-relaxed">
+    <Fragment
+      set:html={highlightWords(
+        `J’aime aussi héberger mes propres projets et services sur mon serveur local, ce qui me permet d’expérimenter avec le réseau et l’automatisation.`,
+        ['serveur local', 'réseau', 'self‑hosting'],
+      )}
+    />
+  </p>
+
+  <p class="text-muted-foreground leading-relaxed">
+    <Fragment
+      set:html={highlightWords(
+        `J’accorde une grande importance à la developer experience (DevX) et j’aime optimiser mon environnement de travail pour gagner en efficacité.`,
         ['DevX'],
       )}
     />
   </p>
-</div>
 
+  <p class="text-muted-foreground leading-relaxed">
+    <Fragment
+      set:html={highlightWords(
+        `J'aime principalement travailler dans des environnements UNIX comme macOS et Linux!`,
+        ['macOS', 'Linux', 'UNIX', 'terminal'],
+      )}
+    />
+  </p>
+
+  <p class="text-muted-foreground leading-relaxed">
+    <Fragment
+      set:html={highlightWords(
+        `En dehors de l’informatique, je passe mon temps libre à faire du sport, jouer à quelques jeux vidéo, regarder des animes ou m'occuper de mes animaux de compagnie!`,
+        ['sport', 'jeux vidéo', 'animes'],
+      )}
+    />
+  </p>
+</div>

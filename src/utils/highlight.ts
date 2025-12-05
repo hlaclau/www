@@ -15,8 +15,10 @@ export function highlightWords(
     let result = text;
 
     for (const word of wordsToHighlight) {
-        const regex = new RegExp(`\\b${word}\\b`, 'gi');
-        result = result.replace(regex, highlight(word));
+        const parts = result.split(word);
+        if (parts.length > 1) {
+            result = parts.join(highlight(word));
+        }
     }
 
     return result;
