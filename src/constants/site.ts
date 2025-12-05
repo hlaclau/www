@@ -1,6 +1,7 @@
 const informations = {
-    username: 'LACLAU Hugo',
+    username: 'Hugo Laclau',
     company: 'Betclic',
+    school: 'Ynov Campus Bordeaux',
     title: 'Ingénieur logiciel en alternance',
     image: '/favicon.png',
     location: 'Bordeaux, France',
@@ -48,6 +49,7 @@ const description = `Je suis ${informations.title} chez ${informations.company},
 export const SITE = {
     url: 'https://hlaclau.fr',
     username: informations.username,
+    school: informations.school,
     company: informations.company,
     title: informations.title,
     description: description,

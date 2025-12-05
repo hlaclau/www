@@ -1,11 +1,42 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Hero from '@/components/sections/Hero.astro';
+import Description from '@/components/sections/Description.astro';
 import { SITE } from '@/constants/site';
 ---
 
 <Layout title="Accueil" description={SITE.description}>
-  <Hero />
+  <div class="flex flex-col items-center space-y-12 md:space-y-16">
+    <Hero />
+    <Description />
+    
+    <div id="contact" class="w-full max-w-2xl mx-auto pt-8">
+      <div class="h-px bg-border/50 mb-8"></div>
+      
+      <div class="space-y-4">
+        <p class="text-muted-foreground text-sm uppercase tracking-wider">Retrouvez moi sur</p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a 
+            href={SITE.contact.github} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-foreground hover:text-primary transition-colors underline underline-offset-2"
+          >
+            GitHub
+          </a>
+          <span class="text-muted-foreground">·</span>
+          <a 
+            href={SITE.contact.linkedin} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-foreground hover:text-primary transition-colors underline underline-offset-2"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <script type="application/ld+json" set:html={JSON.stringify({
