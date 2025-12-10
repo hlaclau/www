@@ -1,6 +1,7 @@
 const informations = {
     username: 'Hugo Laclau',
-    company: 'Betclic',
+    company: 'Betclic Group',
+    company_url: 'https://betclicgroup.com/',
     school: 'Ynov Campus Bordeaux',
     title: 'Ingénieur logiciel en alternance',
     image: '/favicon.png',
@@ -51,6 +52,7 @@ export const SITE = {
     username: informations.username,
     school: informations.school,
     company: informations.company,
+    company_url: informations.company_url,
     title: informations.title,
     description: description,
     image: informations.image,

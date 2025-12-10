@@ -16,7 +16,7 @@ import { highlightWords } from '@/utils/highlight';
   <p class="text-muted-foreground leading-relaxed">
     <Fragment
       set:html={highlightWords(
-        `Je suis étudiant en master informatique chez ${SITE.school} et en alternance chez ${SITE.company}.`,
+        `Je suis étudiant en master informatique chez ${SITE.school} et en alternance chez <a href="${SITE.company_url}" target="_blank" rel="noopener noreferrer" class="text-foreground hover:text-primary transition-colors underline underline-offset-2">${SITE.company}</a>.`,
         [SITE.school, 'master informatique', SITE.company],
       )}
     />
@@ -34,45 +34,10 @@ import { highlightWords } from '@/utils/highlight';
   <p class="text-muted-foreground leading-relaxed">
     <Fragment
       set:html={highlightWords(
-        `Je m’intéresse beaucoup au DevOps, notamment à la mise en place de pipelines de déploiement automatisés avec Docker, ainsi qu’à l’utilisation d’AWS et de Terraform.`,
-        ['DevOps', 'Docker', 'AWS', 'Terraform'],
+        `Je m'intéresse beaucoup au DevOps, à la DevX (Developer Experience) et à explorer de nouvelles technologies en tout genre.`,
+        ['DevOps', 'DevX'],
       )}
     />
   </p>
 
-  <p class="text-muted-foreground leading-relaxed">
-    <Fragment
-      set:html={highlightWords(
-        `J’aime aussi héberger mes propres projets et services sur mon serveur local, ce qui me permet d’expérimenter avec le réseau et l’automatisation.`,
-        ['serveur local', 'réseau', 'self‑hosting'],
-      )}
-    />
-  </p>
-
-  <p class="text-muted-foreground leading-relaxed">
-    <Fragment
-      set:html={highlightWords(
-        `J’accorde une grande importance à la developer experience (DevX) et j’aime optimiser mon environnement de travail pour gagner en efficacité.`,
-        ['DevX'],
-      )}
-    />
-  </p>
-
-  <p class="text-muted-foreground leading-relaxed">
-    <Fragment
-      set:html={highlightWords(
-        `J'aime principalement travailler dans des environnements UNIX comme macOS et Linux!`,
-        ['macOS', 'Linux', 'UNIX', 'terminal'],
-      )}
-    />
-  </p>
-
-  <p class="text-muted-foreground leading-relaxed">
-    <Fragment
-      set:html={highlightWords(
-        `En dehors de l’informatique, je passe mon temps libre à faire du sport, jouer à quelques jeux vidéo, regarder des animes ou m'occuper de mes animaux de compagnie!`,
-        ['sport', 'jeux vidéo', 'animes'],
-      )}
-    />
-  </p>
 </div>
