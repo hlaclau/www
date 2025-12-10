@@ -1,6 +1,7 @@
 const informations = {
     username: 'Hugo Laclau',
-    company: 'Betclic',
+    company: 'Betclic Group',
+    company_url: 'https://betclicgroup.com/',
     school: 'Ynov Campus Bordeaux',
     title: 'Ingénieur logiciel en alternance',
     image: '/favicon.png',
@@ -44,13 +45,14 @@ const keywords = [
     'AI',
 ];
 
-const description = `Je suis ${informations.title} chez ${informations.company}, je suis passionné par le développement logiciel et je suis toujours à la recherche de nouveaux challenges.`;
+const description = `Je suis ${informations.username}, développeur logiciel en alternance chez ${informations.company}, et étudiant en master informatique chez ${informations.school}.`;
 
 export const SITE = {
     url: 'https://hlaclau.fr',
     username: informations.username,
     school: informations.school,
     company: informations.company,
+    company_url: informations.company_url,
     title: informations.title,
     description: description,
     image: informations.image,

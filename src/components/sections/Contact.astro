@@ -1,0 +1,31 @@
+---
+import { SITE } from '@/constants/site';
+---
+
+<div id="contact" class="w-full max-w-2xl mx-auto pt-8 text-center">
+  <div class="h-px bg-border/50 mb-8"></div>
+  
+  <div class="space-y-4">
+    <p class="text-muted-foreground text-sm uppercase tracking-wider">Retrouvez moi sur</p>
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <a 
+        href={SITE.contact.github} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="text-foreground hover:text-primary transition-colors underline underline-offset-2"
+      >
+        GitHub
+      </a>
+      <span class="text-muted-foreground">·</span>
+      <a 
+        href={SITE.contact.linkedin} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="text-foreground hover:text-primary transition-colors underline underline-offset-2"
+      >
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</div>
+
