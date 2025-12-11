@@ -59,4 +59,13 @@ export const SITE = {
     location: informations.location,
     contact: contact,
     keywords: keywords,
+    // SEO-optimized title suffix for better search visibility
+    titleSuffix: 'Ingénieur Logiciel à Bordeaux',
+    // Geo information for local SEO
+    geo: {
+        region: 'FR-NAQ',
+        placename: 'Bordeaux',
+        position: '44.837789;-0.579180',
+        icbm: '44.837789, -0.579180',
+    },
 };

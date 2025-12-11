@@ -73,10 +73,17 @@ export const AnimatedThemeToggler = ({
         <button
             ref={buttonRef}
             onClick={toggleTheme}
-            className={cn("flex items-center justify-center", className)}
+            className={cn('flex items-center justify-center', className)}
             {...props}
         >
-            {isDark ? <Icon icon="line-md:sunny-loop" className="h-6 w-6" /> : <Icon icon="line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition" className="h-6 w-6" />}
+            {isDark ? (
+                <Icon icon="line-md:sunny-loop" className="h-6 w-6" />
+            ) : (
+                <Icon
+                    icon="line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition"
+                    className="h-6 w-6"
+                />
+            )}
             <span className="sr-only">Toggle theme</span>
         </button>
     );
