@@ -13,16 +13,3 @@ import { SITE } from '@/constants/site';
     <Contact />
   </div>
 </Layout>
-
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": SITE.username,
-  "description": SITE.description,
-  "url": SITE.url,
-  "mainEntity": {
-    "@type": "Person",
-    "name": SITE.username
-  }
-})}>
-</script>
