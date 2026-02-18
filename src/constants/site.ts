@@ -15,6 +15,8 @@ const contact = {
 
 const keywords = [
     'Développement logiciel',
+    'Linux',
+    'MacOS',
     'C#',
     '.NET',
     'ASP.NET',

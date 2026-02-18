@@ -182,3 +182,14 @@
     animation: none;
     mix-blend-mode: normal;
 }
+
+.mdx a {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+}
+
+.mdx a:hover {
+    color: var(--primary);
+}
