@@ -253,14 +253,6 @@ const keywords = SITE.keywords.join(', ');
         <main class="relative z-10 flex min-h-screen justify-center px-6 py-28 md:px-10 md:py-32">
             <div class="w-full max-w-2xl">
                 <slot />
-
-                <footer class="relative mt-24 flex items-center justify-between pt-6">
-                    <div class="rule absolute left-0 right-0 top-0"></div>
-                    <p class="mono-label">
-                        &copy; {new Date().getFullYear()} {SITE.username}
-                    </p>
-                    <p class="mono-label">{SITE.location}</p>
-                </footer>
             </div>
         </main>
     </body>
