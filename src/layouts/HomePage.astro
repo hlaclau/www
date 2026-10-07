@@ -11,14 +11,14 @@ import { SITE } from '@/constants/site';
         <Hero />
 
         <div class="flex flex-col gap-6">
-            <SectionLabel index="01" title="About" />
-            <div class="mdx drop-cap text-muted-foreground max-w-2xl space-y-5 text-lg leading-relaxed">
+            <SectionLabel title="À propos" />
+            <div class="mdx text-muted-foreground max-w-2xl space-y-5 text-lg leading-relaxed">
                 <slot />
             </div>
         </div>
 
         <div class="flex flex-col gap-6">
-            <SectionLabel index="02" title="Contact" />
+            <SectionLabel title="Contact" />
             <Contact />
         </div>
     </div>
