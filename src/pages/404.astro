@@ -1,22 +1,23 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import { SITE } from '@/constants/site';
 ---
 
-<Layout title="404 - Page non trouvée" description="Cette page n'existe pas" noindex={true}>
-  <div class="flex flex-col items-center justify-center text-center space-y-6">
-    <h1 class="text-foreground text-6xl md:text-7xl font-bold">
-      404
-    </h1>
-    <p class="text-muted-foreground text-lg md:text-xl">
-        Cette page n'existe pas! :(
-    </p>
-    <a 
-      href="/"
-      class="text-foreground hover:text-primary transition-colors underline underline-offset-2 mt-4"
-    >
-      Retour à l'accueil
-    </a>
-  </div>
+<Layout
+    title="404 - Page non trouvée"
+    description="Cette page n'existe pas"
+    noindex={true}
+>
+    <div class="flex flex-col items-center gap-8 text-center">
+        <div class="flex items-baseline gap-3">
+            <span class="mono-label text-foreground">404</span>
+            <span class="mono-label">Not Found</span>
+            <span class="rule"></span>
+        </div>
+        <h1 class="text-foreground text-4xl font-semibold tracking-tight md:text-5xl">
+            Cette page n'existe pas.
+        </h1>
+        <a href="/" class="link-highlight mono-label text-foreground inline-block">
+            &larr; Retour à l'accueil
+        </a>
+    </div>
 </Layout>
-
