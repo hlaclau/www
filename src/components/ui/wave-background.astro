@@ -25,7 +25,9 @@
         let visible = true;
 
         const SCALE = Math.min(window.devicePixelRatio || 1, 2);
-        const FRAME_MS = 1000 / 30;
+        // a bit above 60 so frame jitter on 60Hz screens never skips a frame,
+        // while 120Hz+ screens are still capped around 60fps
+        const FRAME_MS = 1000 / 70;
 
         // contour field: evenly spaced horizontal lines warped by a pair of
         // counter-rotating vortices, which twist the lines into an S-shaped
@@ -36,6 +38,14 @@
         ];
         const SPACING = 48;
         const STEP = 6;
+
+        // mouse parallax: lines follow the pointer vertically by different
+        // amounts depending on their depth, while the swirl drifts the other
+        // way. `target` is where the pointer is, `pointer` eases toward it.
+        const PARALLAX = 80;
+        const EASE = 0.1;
+        const target = { x: 0, y: 0 };
+        const pointer = { x: 0, y: 0 };
 
         const resize = () => {
             width = window.innerWidth;
@@ -55,8 +65,14 @@
         const warp = (x: number, y: number, t: number) => {
             const size = Math.max(width, height);
             for (const v of vortices) {
-                const cx = width * v.x + Math.sin(t * 0.0035 + v.seed) * size * 0.03;
-                const cy = height * v.y + Math.cos(t * 0.003 + v.seed) * size * 0.02;
+                const cx =
+                    width * v.x +
+                    Math.sin(t * 0.0035 + v.seed) * size * 0.03 -
+                    pointer.x * PARALLAX * 0.6;
+                const cy =
+                    height * v.y +
+                    Math.cos(t * 0.003 + v.seed) * size * 0.02 -
+                    pointer.y * PARALLAX * 0.6;
                 const r = size * v.radius;
                 const dx = x - cx;
                 const dy = y - cy;
@@ -74,7 +90,7 @@
         const draw = () => {
             const dark = isDarkMode();
             const c = dark ? '255, 255, 255' : '0, 0, 0';
-            const alpha = dark ? 0.2 : 0.16;
+            const alpha = dark ? 0.34 : 0.16;
             ctx.clearRect(0, 0, width, height);
 
             // lines fade in from the left edge, like the light falls across them
@@ -88,10 +104,13 @@
             // overscan vertically so lines rotated in from off-screen exist
             const overscan = height * 0.5;
             for (let y0 = -overscan; y0 <= height + overscan; y0 += SPACING) {
+                // neighbouring lines sit at nearby depths so they never cross
+                const depth = 0.5 + 0.5 * Math.sin(y0 / 160);
+                const shift = pointer.y * PARALLAX * depth;
                 ctx.beginPath();
                 for (let x0 = -40; x0 <= width + 40; x0 += STEP) {
                     const swell = Math.sin(x0 / 420 + y0 / 300 + time * 0.004) * 14;
-                    const [x, y] = warp(x0, y0 + swell, time);
+                    const [x, y] = warp(x0, y0 + swell + shift, time);
                     if (x0 === -40) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
@@ -102,10 +121,13 @@
         const render = (now: number) => {
             if (!visible) return;
             rafId = requestAnimationFrame(render);
-            // the motion is slow, 30fps is indistinguishable and halves the cost
+            // 60fps so the parallax tracks the pointer smoothly
             if (now - lastFrame < FRAME_MS) return;
             lastFrame = now;
-            time += 1;
+            // half a tick per frame keeps the ambient drift at its 30fps pace
+            time += 0.5;
+            pointer.x += (target.x - pointer.x) * EASE;
+            pointer.y += (target.y - pointer.y) * EASE;
             draw();
         };
 
@@ -125,6 +147,19 @@
 
         if (!prefersReducedMotion) {
             rafId = requestAnimationFrame(render);
+
+            // only real mice, touch would make the lines jump on every tap
+            if (window.matchMedia('(pointer: fine)').matches) {
+                window.addEventListener('pointermove', (e) => {
+                    target.x = (e.clientX / width) * 2 - 1;
+                    target.y = (e.clientY / height) * 2 - 1;
+                });
+                // settle back to rest when the pointer leaves the window
+                document.documentElement.addEventListener('pointerleave', () => {
+                    target.x = 0;
+                    target.y = 0;
+                });
+            }
 
             document.addEventListener('visibilitychange', () => {
                 visible = !document.hidden;
