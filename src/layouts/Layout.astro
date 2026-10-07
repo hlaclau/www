@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css';
 import { SITE } from '@/constants/site';
+import { LAST_MODIFIED } from '@/lib/last-modified';
 import Analytics from '@vercel/analytics/astro'
 import Nav from '@/components/ui/nav.astro';
 import WaveBackground from '@/components/ui/wave-background.astro';
@@ -24,7 +25,96 @@ const pageTitle = isHomePage
     ? `${SITE.username} | ${SITE.titleSuffix}` 
     : `${title} | ${SITE.username}`;
 
-const keywords = SITE.keywords.join(', ');
+const personId = `${SITE.url}/#person`;
+const websiteId = `${SITE.url}/#website`;
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'Person',
+            '@id': personId,
+            name: SITE.username,
+            givenName: 'Hugo',
+            familyName: 'Laclau',
+            alternateName: 'hlaclau',
+            description: SITE.description,
+            url: SITE.url,
+            image: {
+                '@type': 'ImageObject',
+                url: new URL(SITE.image, SITE.url).toString(),
+                width: 1200,
+                height: 630,
+            },
+            sameAs: [SITE.contact.github, SITE.contact.linkedin],
+            jobTitle: SITE.title,
+            worksFor: {
+                '@type': 'Organization',
+                name: SITE.company,
+                url: SITE.company_url,
+            },
+            address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Bordeaux',
+                addressRegion: 'Nouvelle-Aquitaine',
+                addressCountry: 'FR',
+            },
+            nationality: {
+                '@type': 'Country',
+                name: 'France',
+            },
+            knowsAbout: SITE.keywords,
+            knowsLanguage: [
+                { '@type': 'Language', name: 'French', alternateName: 'fr' },
+                { '@type': 'Language', name: 'English', alternateName: 'en' },
+            ],
+            alumniOf: {
+                '@type': 'EducationalOrganization',
+                name: SITE.school,
+                address: {
+                    '@type': 'PostalAddress',
+                    addressLocality: 'Bordeaux',
+                    addressCountry: 'FR',
+                },
+            },
+            hasOccupation: {
+                '@type': 'Occupation',
+                name: 'Software Engineer',
+                occupationLocation: {
+                    '@type': 'City',
+                    name: 'Bordeaux',
+                },
+                skills: SITE.keywords.slice(0, 10).join(', '),
+            },
+        },
+        {
+            '@type': 'WebSite',
+            '@id': websiteId,
+            name: SITE.username,
+            url: SITE.url,
+            description: SITE.description,
+            inLanguage: 'fr-FR',
+            author: { '@id': personId },
+            publisher: { '@id': personId },
+        },
+        ...(isHomePage
+            ? [
+                  {
+                      '@type': 'ProfilePage',
+                      '@id': `${SITE.url}/#profilepage`,
+                      url: SITE.url,
+                      name: `Profil de ${SITE.username}`,
+                      description: SITE.description,
+                      inLanguage: 'fr-FR',
+                      isPartOf: { '@id': websiteId },
+                      mainEntity: { '@id': personId },
+                      dateCreated: '2025-12-11',
+                      ...(LAST_MODIFIED && { dateModified: LAST_MODIFIED }),
+                  },
+              ]
+            : []),
+    ],
+};
 ---
 
 <html lang="fr">
@@ -32,31 +122,16 @@ const keywords = SITE.keywords.join(', ');
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- Primary Meta Tags -->
         <title>{pageTitle}</title>
-        <meta name="title" content={pageTitle} />
         <meta name="description" content={description} />
         <meta name="author" content={SITE.username} />
-        <meta name="keywords" content={keywords} />
-        <meta name="language" content="French" />
-        <meta name="revisit-after" content="7 days" />
-        <meta name="rating" content="general" />
-        <meta name="distribution" content="global" />
-        
-        <!-- Geo Meta Tags for Local SEO -->
-        <meta name="geo.region" content={SITE.geo.region} />
-        <meta name="geo.placename" content={SITE.geo.placename} />
-        <meta name="geo.position" content={SITE.geo.position} />
-        <meta name="ICBM" content={SITE.geo.icbm} />
-        
+
         <link rel="canonical" href={canonicalURL} />
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
         {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
-        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
         <!-- Theme & Mobile App -->
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
@@ -67,168 +142,30 @@ const keywords = SITE.keywords.join(', ');
         <link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        <!-- Preconnect to External Resources -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.linkedin.com" />
-        <link rel="dns-prefetch" href="https://github.com" />
-
         <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="profile" />
         <meta property="og:url" content={canonicalURL} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={socialImage} />
-        <meta property="og:image:secure_url" content={socialImage} />
-        <meta property="og:image:alt" content={`${SITE.username} - ${title}`} />
+        <meta property="og:image:alt" content={pageTitle} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:site_name" content={SITE.username} />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="profile:first_name" content="Hugo" />
+        <meta property="profile:last_name" content="Laclau" />
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={canonicalURL} />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={socialImage} />
-        <meta name="twitter:image:alt" content={`${SITE.username} - ${title}`} />
-        <meta name="twitter:creator" content="@hlaclau" />
-        <meta name="twitter:site" content="@hlaclau" />
+        <meta name="twitter:image:alt" content={pageTitle} />
 
-        <!-- Structured Data - Person -->
-        <script type="application/ld+json" set:html={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "@id": `${SITE.url}/#person`,
-          "name": SITE.username,
-          "givenName": "Hugo",
-          "familyName": "Laclau",
-          "alternateName": ["Hugo Laclau", "hlaclau"],
-          "description": SITE.description,
-          "url": SITE.url,
-          "image": {
-            "@type": "ImageObject",
-            "url": socialImage.toString(),
-            "width": 512,
-            "height": 512
-          },
-          "sameAs": [
-            SITE.contact.github,
-            SITE.contact.linkedin
-          ],
-          "jobTitle": SITE.title,
-          "worksFor": {
-            "@type": "Organization",
-            "name": SITE.company,
-            "url": SITE.company_url
-          },
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Bordeaux",
-            "addressRegion": "Nouvelle-Aquitaine",
-            "addressCountry": "FR"
-          },
-          "nationality": {
-            "@type": "Country",
-            "name": "France"
-          },
-          "knowsAbout": SITE.keywords,
-          "knowsLanguage": [
-            {
-              "@type": "Language",
-              "name": "French",
-              "alternateName": "fr"
-            },
-            {
-              "@type": "Language", 
-              "name": "English",
-              "alternateName": "en"
-            }
-          ],
-          "alumniOf": {
-            "@type": "EducationalOrganization",
-            "name": SITE.school,
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Bordeaux",
-              "addressCountry": "FR"
-            }
-          },
-          "hasOccupation": {
-            "@type": "Occupation",
-            "name": "Software Engineer",
-            "occupationLocation": {
-              "@type": "City",
-              "name": "Bordeaux"
-            },
-            "skills": SITE.keywords.slice(0, 10).join(", ")
-          }
-        })}>
-        </script>
-
-        <!-- Structured Data - ProfilePage (for portfolio) -->
-        <script type="application/ld+json" set:html={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ProfilePage",
-          "mainEntity": {
-            "@id": `${SITE.url}/#person`
-          },
-          "dateCreated": "2025-12-11",
-          "dateModified": new Date().toISOString().split('T')[0],
-          "name": `Profil de ${SITE.username}`,
-          "description": SITE.description,
-          "url": SITE.url,
-          "inLanguage": "fr-FR"
-        })}>
-        </script>
-
-        <!-- Structured Data - WebSite -->
-        <script type="application/ld+json" set:html={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": SITE.username,
-          "url": SITE.url,
-          "description": SITE.description,
-          "inLanguage": "fr-FR",
-          "author": {
-            "@type": "Person",
-            "name": SITE.username
-          }
-        })}>
-        </script>
-
-        <!-- Structured Data - Organization (Betclic) -->
-        <script type="application/ld+json" set:html={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": SITE.company,
-          "url": "https://www.betclic.fr"
-        })}>
-        </script>
-
-        <!-- Structured Data - BreadcrumbList -->
-        <script type="application/ld+json" set:html={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Accueil",
-              "item": SITE.url
-            },
-            ...(Astro.url.pathname !== '/' ? [{
-              "@type": "ListItem",
-              "position": 2,
-              "name": title,
-              "item": canonicalURL.toString()
-            }] : [])
-          ]
-        })}>
-        </script>
+        <!-- Structured Data -->
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
         <script is:inline>
             (function() {
                 const theme = localStorage.getItem('theme') || 'dark';
