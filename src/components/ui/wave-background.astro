@@ -1,0 +1,136 @@
+---
+---
+
+<canvas
+    id="wave-bg"
+    class="pointer-events-none fixed inset-0 z-0"
+    aria-hidden="true"
+    style="mask-image: radial-gradient(ellipse 420px 60% at 50% 40%, rgb(0 0 0 / 0.35), black); -webkit-mask-image: radial-gradient(ellipse 420px 60% at 50% 40%, rgb(0 0 0 / 0.35), black);"
+></canvas>
+
+<script>
+    const canvas = document.getElementById('wave-bg') as HTMLCanvasElement;
+    const ctx = canvas?.getContext('2d');
+
+    if (canvas && ctx) {
+        const prefersReducedMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+        ).matches;
+
+        let width = 0;
+        let height = 0;
+        let rafId = 0;
+        let time = 0;
+        let lastFrame = 0;
+        let visible = true;
+
+        const SCALE = Math.min(window.devicePixelRatio || 1, 2);
+        const FRAME_MS = 1000 / 30;
+
+        // contour field: evenly spaced horizontal lines warped by a pair of
+        // counter-rotating vortices, which twist the lines into an S-shaped
+        // swirl. The vortices drift and breathe slowly over time.
+        const vortices = [
+            { x: 0.47, y: 0.42, radius: 0.26, strength: 2.0, seed: 0 },
+            { x: 0.57, y: 0.58, radius: 0.2, strength: -1.3, seed: 2.4 },
+        ];
+        const SPACING = 48;
+        const STEP = 6;
+
+        const resize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * SCALE;
+            canvas.height = height * SCALE;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+        };
+
+        const isDarkMode = () =>
+            document.documentElement.classList.contains('dark');
+
+        // rotate a point around each vortex centre, by an angle that is
+        // strongest at the centre and falls off smoothly with distance
+        const warp = (x: number, y: number, t: number) => {
+            const size = Math.max(width, height);
+            for (const v of vortices) {
+                const cx = width * v.x + Math.sin(t * 0.0035 + v.seed) * size * 0.03;
+                const cy = height * v.y + Math.cos(t * 0.003 + v.seed) * size * 0.02;
+                const r = size * v.radius;
+                const dx = x - cx;
+                const dy = y - cy;
+                const falloff = Math.exp(-(dx * dx + dy * dy) / (r * r));
+                const angle =
+                    v.strength * (1 + Math.sin(t * 0.005 + v.seed) * 0.2) * falloff;
+                const cos = Math.cos(angle);
+                const sin = Math.sin(angle);
+                x = cx + dx * cos - dy * sin;
+                y = cy + dx * sin + dy * cos;
+            }
+            return [x, y] as const;
+        };
+
+        const draw = () => {
+            const dark = isDarkMode();
+            const c = dark ? '255, 255, 255' : '0, 0, 0';
+            const alpha = dark ? 0.2 : 0.16;
+            ctx.clearRect(0, 0, width, height);
+
+            // lines fade in from the left edge, like the light falls across them
+            const stroke = ctx.createLinearGradient(0, 0, width, 0);
+            stroke.addColorStop(0, `rgba(${c}, ${alpha * 0.15})`);
+            stroke.addColorStop(0.5, `rgba(${c}, ${alpha * 0.7})`);
+            stroke.addColorStop(1, `rgba(${c}, ${alpha})`);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = 1.2;
+
+            // overscan vertically so lines rotated in from off-screen exist
+            const overscan = height * 0.5;
+            for (let y0 = -overscan; y0 <= height + overscan; y0 += SPACING) {
+                ctx.beginPath();
+                for (let x0 = -40; x0 <= width + 40; x0 += STEP) {
+                    const swell = Math.sin(x0 / 420 + y0 / 300 + time * 0.004) * 14;
+                    const [x, y] = warp(x0, y0 + swell, time);
+                    if (x0 === -40) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+        };
+
+        const render = (now: number) => {
+            if (!visible) return;
+            rafId = requestAnimationFrame(render);
+            // the motion is slow, 30fps is indistinguishable and halves the cost
+            if (now - lastFrame < FRAME_MS) return;
+            lastFrame = now;
+            time += 1;
+            draw();
+        };
+
+        resize();
+        draw();
+
+        window.addEventListener('resize', () => {
+            resize();
+            draw();
+        });
+
+        // redraw immediately when the theme toggles
+        new MutationObserver(draw).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class'],
+        });
+
+        if (!prefersReducedMotion) {
+            rafId = requestAnimationFrame(render);
+
+            document.addEventListener('visibilitychange', () => {
+                visible = !document.hidden;
+                cancelAnimationFrame(rafId);
+                if (visible) rafId = requestAnimationFrame(render);
+            });
+        }
+    }
+</script>
