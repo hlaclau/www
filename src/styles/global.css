@@ -8,7 +8,7 @@
     /* pure grayscale, with a vivid Catppuccin mocha mauve accent */
     --background: oklch(1 0 0);
     --foreground: oklch(0.08 0 0);
-    --muted-foreground: oklch(0.38 0 0);
+    --muted-foreground: oklch(0.32 0 0);
     --border: oklch(0.85 0 0);
     --ring: #cba6f7; /* catppuccin mocha mauve */
     --accent: #cba6f7; /* catppuccin mocha mauve */
@@ -23,7 +23,7 @@
 .dark {
     --background: oklch(0 0 0);
     --foreground: oklch(1 0 0);
-    --muted-foreground: oklch(0.72 0 0);
+    --muted-foreground: oklch(0.8 0 0);
     --border: oklch(0.26 0 0);
     --ring: #cba6f7; /* catppuccin mocha mauve */
     --accent: #cba6f7; /* catppuccin mocha mauve */
@@ -67,8 +67,8 @@ body {
 
 .mono-label {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted-foreground);
 }
@@ -77,24 +77,6 @@ body {
     height: 1px;
     width: 100%;
     background: var(--border);
-}
-
-.drop-cap::first-letter {
-    font-size: 3.2em;
-    line-height: 0.8;
-    float: left;
-    padding-right: 0.08em;
-    padding-top: 0.04em;
-    font-weight: 600;
-}
-
-@media (max-width: 480px) {
-    .drop-cap::first-letter {
-        float: none;
-        font-size: 1.6em;
-        line-height: 1;
-        padding: 0;
-    }
 }
 
 .mdx a {
