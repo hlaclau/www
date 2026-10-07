@@ -9,7 +9,8 @@
         "astro": "astro",
         "lint": "oxlint",
         "fmt": "prettier --write .",
-        "prepare": "lefthook install"
+        "prepare": "lefthook install",
+        "test:e2e": "playwright test"
     },
     "dependencies": {
         "@astrojs/mdx": "^8.0.3",
@@ -25,6 +26,7 @@
         "tailwindcss": "^4.3.3"
     },
     "devDependencies": {
+        "@playwright/test": "^1.63.0",
         "lefthook": "^2.1.17",
         "oxlint": "^1.87.0",
         "prettier": "^3.9.9",
