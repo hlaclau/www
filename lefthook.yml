@@ -1,0 +1,10 @@
+pre-commit:
+    parallel: true
+    commands:
+        lint:
+            glob: '*.{js,mjs,ts,astro}'
+            run: bunx oxlint {staged_files}
+        format:
+            glob: '*.{js,mjs,ts,astro,css,json,md,mdx,yml}'
+            run: bunx prettier --write --ignore-unknown {staged_files}
+            stage_fixed: true

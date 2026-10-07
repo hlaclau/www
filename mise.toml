@@ -1,0 +1,30 @@
+[tools]
+bun = "1.4.2"
+
+[tasks.install]
+description = "Install dependencies"
+run = "bun install"
+
+[tasks.dev]
+description = "Start the dev server"
+run = "bun run dev"
+
+[tasks.build]
+description = "Build the site"
+run = "bun run build"
+
+[tasks.preview]
+description = "Preview the production build"
+run = "bun run preview"
+
+[tasks.lint]
+description = "Lint with oxlint"
+run = "bun run lint"
+
+[tasks.fmt]
+description = "Format with prettier"
+run = "bun run fmt"
+
+[tasks.check]
+description = "Lint and check formatting"
+run = ["bun run lint", "bunx prettier --check ."]
