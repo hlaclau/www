@@ -47,7 +47,7 @@ const keywords = [
     'AI',
 ];
 
-const description = `Développeur en alternance chez ${informations.company} (.NET, AWS) et étudiant en M2 informatique à Ynov Bordeaux.`;
+const description = `Ingénieur logiciel en alternance chez ${informations.company} et étudiant en M2 informatique à Ynov Bordeaux.`;
 
 export const SITE = {
     url: 'https://hlaclau.fr',
@@ -62,5 +62,5 @@ export const SITE = {
     contact: contact,
     keywords: keywords,
     // SEO-optimized title suffix for better search visibility
-    titleSuffix: 'Développeur .NET & AWS à Bordeaux',
+    titleSuffix: 'Ingénieur logiciel à Bordeaux',
 };
