@@ -1,0 +1,13 @@
+---
+interface Props {
+    index: string;
+    title: string;
+}
+const { index, title } = Astro.props;
+---
+
+<div class="flex items-baseline gap-3">
+    <span class="mono-label text-foreground">{index}</span>
+    <span class="mono-label">{title}</span>
+    <span class="rule"></span>
+</div>
