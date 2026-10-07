@@ -28,3 +28,11 @@ run = "bun run fmt"
 [tasks.check]
 description = "Lint and check formatting"
 run = ["bun run lint", "bunx prettier --check ."]
+
+[tasks."test:e2e:install"]
+description = "Install Playwright browsers"
+run = "bunx playwright install chromium webkit"
+
+[tasks."test:e2e"]
+description = "Build the site and run end-to-end tests"
+run = "bun run test:e2e"
