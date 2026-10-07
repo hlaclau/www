@@ -86,6 +86,7 @@ test('static assets are served', async ({ request }) => {
         '/robots.txt',
         '/manifest.json',
         '/favicon.png',
+        '/favicon.svg',
         '/og.png',
         '/sitemap-index.xml',
     ]) {
