@@ -1,0 +1,42 @@
+name: CI
+
+on:
+    pull_request:
+        branches: [master]
+    push:
+        branches: [master]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    check:
+        name: Lint & format
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+            - uses: jdx/mise-action@v5
+            - run: mise run install
+            - run: mise run check
+
+    e2e:
+        name: Build & e2e
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  # Full history so the build can read the last commit date.
+                  fetch-depth: 0
+            - uses: jdx/mise-action@v5
+            - run: mise run install
+            - run: mise run test:e2e:install -- --with-deps
+            - run: mise run test:e2e
+              env:
+                  CI: true
+            - uses: actions/upload-artifact@v7
+              if: failure()
+              with:
+                  name: playwright-report
+                  path: playwright-report/
+                  retention-days: 7
