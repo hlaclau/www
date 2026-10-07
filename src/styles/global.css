@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap');
 @import 'tailwindcss';
@@ -14,10 +14,6 @@
     --accent: #cba6f7; /* catppuccin mocha mauve */
     --highlight: rgba(203, 166, 247, 0.35); /* soft mauve wash, like a highlighter */
     --highlight-text: var(--foreground);
-
-    --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-    --font-display: 'Instrument Serif', 'Source Serif 4', Georgia, serif;
-    --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
 }
 
 .dark {
@@ -38,13 +34,19 @@
     --color-border: var(--border);
     --color-ring: var(--ring);
     --color-accent: var(--accent);
-    --font-serif: var(--font-serif);
-    --font-display: var(--font-display);
-    --font-mono: var(--font-mono);
 }
 
-* {
-    font-family: var(--font-serif);
+@theme {
+    --font-sans: 'Instrument Sans', system-ui, sans-serif;
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+}
+
+/* in the base layer so font utilities like `font-display` can override it */
+@layer base {
+    html {
+        font-family: var(--font-sans);
+    }
 }
 
 html {
