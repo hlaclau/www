@@ -1,46 +1,13 @@
 ---
-import { AnimatedThemeToggler } from './animated-theme-toggler';
-import { Icon } from '@iconify/react';
+import ThemeToggle from './theme-toggle.astro';
 
 interface Props {
-    github: string;
-    linkedin: string;
     className?: string;
 }
 
-const { github, linkedin, className = '' } = Astro.props;
+const { className = '' } = Astro.props;
 ---
 
 <nav class={className}>
-    <ul class="flex items-center gap-4">
-        <li>
-            <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-muted-foreground hover:text-primary transition-colors h-10 w-10 flex items-center justify-center"
-                aria-label="GitHub"
-            >
-                <Icon icon="mdi:github" className="h-6 w-6" client:load />
-            </a>
-        </li>
-        <li>
-            <a
-                href={linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-muted-foreground hover:text-primary transition-colors h-10 w-10 flex items-center justify-center"
-                aria-label="LinkedIn"
-            >
-                <Icon icon="mdi:linkedin" className="h-6 w-6" client:load />
-            </a>
-        </li>
-        <li>
-            <AnimatedThemeToggler 
-                className="text-muted-foreground hover:text-primary transition-colors h-10 w-10"
-                client:load
-            />
-        </li>
-    </ul>
+    <ThemeToggle />
 </nav>
-
