@@ -16,7 +16,12 @@
     --border: oklch(0.85 0 0);
     --ring: #cba6f7; /* catppuccin mocha mauve */
     --accent: #cba6f7; /* catppuccin mocha mauve */
-    --highlight: rgba(203, 166, 247, 0.35); /* soft mauve wash, like a highlighter */
+    --highlight: rgba(
+        203,
+        166,
+        247,
+        0.35
+    ); /* soft mauve wash, like a highlighter */
     --highlight-text: var(--foreground);
 }
 
@@ -27,7 +32,12 @@
     --border: oklch(0.26 0 0);
     --ring: #cba6f7; /* catppuccin mocha mauve */
     --accent: #cba6f7; /* catppuccin mocha mauve */
-    --highlight: rgba(203, 166, 247, 0.28); /* dimmed so it doesn't glow on black */
+    --highlight: rgba(
+        203,
+        166,
+        247,
+        0.28
+    ); /* dimmed so it doesn't glow on black */
     --highlight-text: var(--foreground);
 }
 
