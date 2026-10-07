@@ -78,7 +78,9 @@
                 const dy = y - cy;
                 const falloff = Math.exp(-(dx * dx + dy * dy) / (r * r));
                 const angle =
-                    v.strength * (1 + Math.sin(t * 0.005 + v.seed) * 0.2) * falloff;
+                    v.strength *
+                    (1 + Math.sin(t * 0.005 + v.seed) * 0.2) *
+                    falloff;
                 const cos = Math.cos(angle);
                 const sin = Math.sin(angle);
                 x = cx + dx * cos - dy * sin;
@@ -109,7 +111,8 @@
                 const shift = pointer.y * PARALLAX * depth;
                 ctx.beginPath();
                 for (let x0 = -40; x0 <= width + 40; x0 += STEP) {
-                    const swell = Math.sin(x0 / 420 + y0 / 300 + time * 0.004) * 14;
+                    const swell =
+                        Math.sin(x0 / 420 + y0 / 300 + time * 0.004) * 14;
                     const [x, y] = warp(x0, y0 + swell + shift, time);
                     if (x0 === -40) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
@@ -155,10 +158,13 @@
                     target.y = (e.clientY / height) * 2 - 1;
                 });
                 // settle back to rest when the pointer leaves the window
-                document.documentElement.addEventListener('pointerleave', () => {
-                    target.x = 0;
-                    target.y = 0;
-                });
+                document.documentElement.addEventListener(
+                    'pointerleave',
+                    () => {
+                        target.x = 0;
+                        target.y = 0;
+                    }
+                );
             }
 
             document.addEventListener('visibilitychange', () => {

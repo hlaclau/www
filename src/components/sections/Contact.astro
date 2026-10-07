@@ -14,20 +14,18 @@ const links: Link[] = [
 
 <div id="contact" class="w-full">
     <div class="flex flex-wrap items-center gap-4">
-        {
-            links.map((link, i) => (
-                <>
-                    {i > 0 && <span class="text-muted-foreground">&middot;</span>}
-                    <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="link-highlight text-foreground text-lg"
-                    >
-                        {link.label}
-                    </a>
-                </>
-            ))
-        }
+        {links.map((link, i) => (
+            <>
+                {i > 0 && <span class="text-muted-foreground">&middot;</span>}
+                <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link-highlight text-foreground text-lg"
+                >
+                    {link.label}
+                </a>
+            </>
+        ))}
     </div>
 </div>

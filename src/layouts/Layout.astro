@@ -2,7 +2,7 @@
 import '@/styles/global.css';
 import { SITE } from '@/constants/site';
 import { LAST_MODIFIED } from '@/lib/last-modified';
-import Analytics from '@vercel/analytics/astro'
+import Analytics from '@vercel/analytics/astro';
 import Nav from '@/components/ui/nav.astro';
 import WaveBackground from '@/components/ui/wave-background.astro';
 
@@ -14,15 +14,21 @@ export interface Props {
     noindex?: boolean;
 }
 
-const { title, description = SITE.description, image = SITE.image, canonical, noindex = false } = Astro.props;
+const {
+    title,
+    description = SITE.description,
+    image = SITE.image,
+    canonical,
+    noindex = false,
+} = Astro.props;
 
 const siteURL = Astro.site || SITE.url;
 const canonicalURL = canonical || new URL(Astro.url.pathname, siteURL);
 const socialImage = new URL(image, siteURL);
 // SEO-optimized title: "Page Name | Hugo Laclau - Ingénieur Logiciel à Bordeaux"
 const isHomePage = title === SITE.username;
-const pageTitle = isHomePage 
-    ? `${SITE.username} | ${SITE.titleSuffix}` 
+const pageTitle = isHomePage
+    ? `${SITE.username} | ${SITE.titleSuffix}`
     : `${title} | ${SITE.username}`;
 
 const personId = `${SITE.url}/#person`;
@@ -121,7 +127,10 @@ const structuredData = {
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+        />
 
         <!-- Primary Meta Tags -->
         <title>{pageTitle}</title>
@@ -131,13 +140,29 @@ const structuredData = {
         <link rel="canonical" href={canonicalURL} />
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
-        {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+        {!noindex && (
+            <meta
+                name="robots"
+                content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+            />
+        )}
 
         <!-- Theme & Mobile App -->
-        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta
+            name="theme-color"
+            content="#000000"
+            media="(prefers-color-scheme: dark)"
+        />
+        <meta
+            name="theme-color"
+            content="#ffffff"
+            media="(prefers-color-scheme: light)"
+        />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
         <meta name="apple-mobile-web-app-title" content={SITE.username} />
         <link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -165,9 +190,12 @@ const structuredData = {
         <meta name="twitter:image:alt" content={pageTitle} />
 
         <!-- Structured Data -->
-        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(structuredData)}
+        />
         <script is:inline>
-            (function() {
+            (function () {
                 const theme = localStorage.getItem('theme') || 'dark';
                 if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
