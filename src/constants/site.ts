@@ -60,6 +60,7 @@ export const SITE = {
     image: informations.image,
     location: informations.location,
     contact: contact,
+    repository: 'https://github.com/hlaclau/www',
     keywords: keywords,
     // SEO-optimized title suffix for better search visibility
     titleSuffix: 'Ingénieur logiciel à Bordeaux',
