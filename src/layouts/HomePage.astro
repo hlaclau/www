@@ -4,21 +4,25 @@ import Hero from '@/components/sections/Hero.astro';
 import Contact from '@/components/sections/Contact.astro';
 import SectionLabel from '@/components/ui/section-label.astro';
 import { SITE } from '@/constants/site';
+import { getLocale, ui } from '@/i18n';
+
+const locale = getLocale(Astro.currentLocale);
+const t = ui[locale];
 ---
 
-<Layout title={SITE.username} description={SITE.description}>
+<Layout title={SITE.username} description={SITE.localized[locale].description}>
     <div class="flex flex-col gap-16 md:gap-20">
         <Hero />
 
         <div class="flex flex-col gap-6">
-            <SectionLabel title="À propos" />
+            <SectionLabel title={t.about} />
             <div class="mdx text-muted-foreground max-w-2xl space-y-5 text-lg leading-relaxed">
                 <slot />
             </div>
         </div>
 
         <div class="flex flex-col gap-6">
-            <SectionLabel title="Contact" />
+            <SectionLabel title={t.contact} />
             <Contact />
         </div>
     </div>

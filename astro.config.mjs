@@ -9,6 +9,10 @@ import { LAST_MODIFIED } from './src/lib/last-modified.ts';
 export default defineConfig({
     site: 'https://hlaclau.fr',
     base: '/',
+    i18n: {
+        defaultLocale: 'fr',
+        locales: ['fr', 'en'],
+    },
     trailingSlash: 'ignore',
     build: {
         format: 'directory',
@@ -20,6 +24,10 @@ export default defineConfig({
     integrations: [
         mdx(),
         sitemap({
+            i18n: {
+                defaultLocale: 'fr',
+                locales: { fr: 'fr-FR', en: 'en-US' },
+            },
             lastmod: LAST_MODIFIED ? new Date(LAST_MODIFIED) : undefined,
         }),
     ],

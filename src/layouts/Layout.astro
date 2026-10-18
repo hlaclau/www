@@ -5,6 +5,7 @@ import { LAST_MODIFIED } from '@/lib/last-modified';
 import Analytics from '@vercel/analytics/astro';
 import Nav from '@/components/ui/nav.astro';
 import WaveBackground from '@/components/ui/wave-background.astro';
+import { LANG_TAG, LOCALES, OG_LOCALE, getLocale, homePath, ui } from '@/i18n';
 
 export interface Props {
     title: string;
@@ -16,11 +17,15 @@ export interface Props {
 
 const {
     title,
-    description = SITE.description,
+    description = text.description,
     image = SITE.image,
     canonical,
     noindex = false,
 } = Astro.props;
+
+const locale = getLocale(Astro.currentLocale);
+const t = ui[locale];
+const text = SITE.localized[locale];
 
 const siteURL = Astro.site || SITE.url;
 const canonicalURL = canonical || new URL(Astro.url.pathname, siteURL);
@@ -28,7 +33,7 @@ const socialImage = new URL(image, siteURL);
 // Home: "Hugo Laclau | Ingénieur logiciel à Bordeaux", other pages: "Page | Hugo Laclau"
 const isHomePage = title === SITE.username;
 const pageTitle = isHomePage
-    ? `${SITE.username} | ${SITE.titleSuffix}`
+    ? `${SITE.username} | ${text.titleSuffix}`
     : `${title} | ${SITE.username}`;
 
 const personId = `${SITE.url}/#person`;
@@ -44,7 +49,7 @@ const structuredData = {
             givenName: 'Hugo',
             familyName: 'Laclau',
             alternateName: 'hlaclau',
-            description: SITE.description,
+            description: text.description,
             url: SITE.url,
             image: {
                 '@type': 'ImageObject',
@@ -53,7 +58,7 @@ const structuredData = {
                 height: 630,
             },
             sameAs: [SITE.contact.github, SITE.contact.linkedin],
-            jobTitle: SITE.title,
+            jobTitle: text.title,
             worksFor: {
                 '@type': 'Organization',
                 name: SITE.company,
@@ -98,8 +103,8 @@ const structuredData = {
             '@id': websiteId,
             name: SITE.username,
             url: SITE.url,
-            description: SITE.description,
-            inLanguage: 'fr-FR',
+            description: text.description,
+            inLanguage: LOCALES.map((l) => LANG_TAG[l]),
             author: { '@id': personId },
             publisher: { '@id': personId },
         },
@@ -108,10 +113,10 @@ const structuredData = {
                   {
                       '@type': 'ProfilePage',
                       '@id': `${SITE.url}/#profilepage`,
-                      url: SITE.url,
-                      name: `Profil de ${SITE.username}`,
-                      description: SITE.description,
-                      inLanguage: 'fr-FR',
+                      url: new URL(homePath(locale), SITE.url).toString(),
+                      name: `${t.profileOf} ${SITE.username}`,
+                      description: text.description,
+                      inLanguage: LANG_TAG[locale],
                       isPartOf: { '@id': websiteId },
                       mainEntity: { '@id': personId },
                       dateCreated: '2025-12-11',
@@ -123,7 +128,7 @@ const structuredData = {
 };
 ---
 
-<html lang="fr">
+<html lang={locale}>
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -139,6 +144,21 @@ const structuredData = {
         <meta name="author" content={SITE.username} />
 
         <link rel="canonical" href={canonicalURL} />
+        {isHomePage &&
+            LOCALES.map((l) => (
+                <link
+                    rel="alternate"
+                    hreflang={l}
+                    href={new URL(homePath(l), siteURL)}
+                />
+            ))}
+        {isHomePage && (
+            <link
+                rel="alternate"
+                hreflang="x-default"
+                href={new URL(homePath('fr'), siteURL)}
+            />
+        )}
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
         {!noindex && (
@@ -179,7 +199,10 @@ const structuredData = {
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:site_name" content={SITE.username} />
-        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:locale" content={OG_LOCALE[locale]} />
+        {LOCALES.filter((l) => l !== locale).map((l) => (
+            <meta property="og:locale:alternate" content={OG_LOCALE[l]} />
+        ))}
         <meta property="profile:first_name" content="Hugo" />
         <meta property="profile:last_name" content="Laclau" />
 
@@ -230,7 +253,7 @@ const structuredData = {
                     rel="noopener noreferrer"
                     class="link-highlight text-muted-foreground text-sm"
                 >
-                    Code source
+                    {t.sourceCode}
                 </a>
             </div>
         </footer>

@@ -1,13 +1,16 @@
 ---
+import { getLocale, ui } from '@/i18n';
+
 interface Props {
     className?: string;
 }
 const { className = '' } = Astro.props;
+const label = ui[getLocale(Astro.currentLocale)].toggleTheme;
 ---
 
 <button
     id="theme-toggle"
-    aria-label="Toggle theme"
+    aria-label={label}
     class={`theme-toggle text-muted-foreground hover:text-foreground relative flex h-9 w-9 items-center justify-center transition-colors ${className}`}
 >
     <svg
@@ -32,7 +35,7 @@ const { className = '' } = Astro.props;
     >
         <path d="M20 14.5a8.5 8.5 0 1 1-9-13 7 7 0 0 0 9 13Z"></path>
     </svg>
-    <span class="sr-only">Toggle theme</span>
+    <span class="sr-only">{label}</span>
 </button>
 
 <style>
