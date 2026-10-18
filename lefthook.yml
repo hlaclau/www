@@ -8,3 +8,8 @@ pre-commit:
             glob: '*.{js,mjs,ts,astro,css,json,md,mdx,yml}'
             run: bunx prettier --write --ignore-unknown {staged_files}
             stage_fixed: true
+
+commit-msg:
+    commands:
+        commitlint:
+            run: bunx commitlint --edit {1}
