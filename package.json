@@ -24,6 +24,8 @@
         "tailwindcss": "^4.3.3"
     },
     "devDependencies": {
+        "@commitlint/cli": "^21.2.4",
+        "@commitlint/config-conventional": "^21.2.4",
         "@playwright/test": "^1.63.0",
         "lefthook": "^2.1.17",
         "oxlint": "^1.87.0",
