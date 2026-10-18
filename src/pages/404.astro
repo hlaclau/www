@@ -1,28 +1,25 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import { getLocale, ui } from '@/i18n';
+
+const t = ui[getLocale(Astro.currentLocale)].notFound;
 ---
 
-<Layout
-    title="404 - Page non trouvée"
-    description="Cette page n'existe pas"
-    noindex={true}
->
+<Layout title={t.title} description={t.description} noindex={true}>
     <div class="flex flex-col items-center gap-8 text-center">
         <div class="flex items-baseline gap-3">
             <span class="mono-label text-foreground shrink-0">404</span>
-            <span class="mono-label shrink-0 whitespace-nowrap">
-                Introuvable
-            </span>
+            <span class="mono-label shrink-0 whitespace-nowrap">{t.label}</span>
             <span class="rule"></span>
         </div>
         <h1 class="text-foreground text-4xl font-semibold tracking-tight md:text-5xl">
-            Cette page n'existe pas.
+            {t.heading}
         </h1>
         <a
             href="/"
             class="link-highlight mono-label text-foreground inline-block"
         >
-            &larr; Retour à l'accueil
+            {t.back}
         </a>
     </div>
 </Layout>

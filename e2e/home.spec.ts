@@ -61,11 +61,36 @@ test.describe('homepage', () => {
         const html = page.locator('html');
         await expect(html).toHaveClass(/dark/);
 
-        await page.getByRole('button', { name: 'Toggle theme' }).click();
+        await page.getByRole('button', { name: 'Changer de thème' }).click();
         await expect(html).not.toHaveClass(/dark/);
 
         await page.reload();
         await expect(html).not.toHaveClass(/dark/);
+    });
+});
+
+test.describe('english version', () => {
+    test('is served with English content and metadata', async ({ page }) => {
+        const response = await page.goto('/en/');
+        expect(response?.status()).toBe(200);
+        await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+        await expect(page.getByText('About', { exact: true })).toBeVisible();
+        await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+            'href',
+            'https://hlaclau.fr/en/'
+        );
+        await expect(
+            page.locator('link[rel="alternate"][hreflang="fr"]')
+        ).toHaveAttribute('href', 'https://hlaclau.fr/');
+    });
+
+    test('language switcher navigates between versions', async ({ page }) => {
+        await page.goto('/');
+        await page.getByRole('link', { name: 'Switch to English' }).click();
+        await expect(page).toHaveURL(/\/en\/$/);
+        await page.getByRole('link', { name: 'Passer en français' }).click();
+        await expect(page).toHaveURL(/\/$/);
+        await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
     });
 });
 
