@@ -1,0 +1,23 @@
+name: Mise bump
+
+on:
+    schedule:
+        - cron: '0 3 * * 1'
+    workflow_dispatch: {}
+
+permissions:
+    contents: read
+
+jobs:
+    mise-bump:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - uses: actions/checkout@v7
+            - uses: jdx/mise-action@v5
+            - uses: sgash708/mise-bump-action@ee386f5b43ed07b1299241955dc5db8d980f53f2 # v1.7.1
+              with:
+                  mise-config-path: mise.toml
+                  pr-strategy: per-tool
